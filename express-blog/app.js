@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users'); */
 let blogRouter = require('./routes/blog');
 let userRouter = require('./routes/users');
 const session = require('express-session');
+let RedisStore = require('connect-redis');
 var app = express();
 
 // view engine setup
@@ -22,6 +23,10 @@ app.use(cookieParser());
 /* app.use(express.static(path.join(__dirname, 'public')));
  */
 
+ let redisClient = require('./db/redis');
+ let sessionStore = new RedisStore({
+   client: redisClient
+ })
 // session中间执行后 会赋值给req.session
 app.use(session({
   secret: 'demo_key',
@@ -29,7 +34,8 @@ app.use(session({
     path: '/', // 默认配置
     httpOnly: true, //默认配置
     maxAge: 24 * 60 * 60 * 1000 //过期时间
-  }
+  },
+  store: sessionStore  // 将session存储在redis中
 }))
 
 //博客路由

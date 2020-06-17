@@ -11,7 +11,7 @@ router.post('/login', function (req, res, next) {
   console.log('password =>', password);
   
   let result = login(username, password);  
-  return result.then((data) => {
+  return result.then((data) => {  
     console.log(data);
     
     if (data.username) {
