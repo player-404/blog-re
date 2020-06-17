@@ -21,6 +21,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 /* app.use(express.static(path.join(__dirname, 'public')));
  */
+
+// session中间执行后 会赋值给req.session
 app.use(session({
   secret: 'demo_key',
   cookie: {

@@ -1,5 +1,5 @@
 const { exec, escape } = require('../db/mysql');
-const { cry } = require('../utils/encryption');
+const { cry } = require('../untils/encryption');
 
 function login(username, password) {    
     password = cry(password); //md5加密
