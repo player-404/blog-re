@@ -7,7 +7,11 @@ function login(username, password) {
     password = escape(password);
     let sql = `SELECT username FROM users WHERE username=${username} AND password=${password}`;
     return exec(sql).then(data => {
-       return data[0];
+        console.log(data);
+        if (data.length > 0) {
+            return data[0];
+        }
+        return false;
     })
 }
 
