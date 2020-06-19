@@ -1,4 +1,5 @@
 const express = require('express');
+const loginCheck = require('../middleware/loginCheck');
 const router = express.Router();
 const { getList,
     getDetiles,
@@ -7,8 +8,7 @@ const { getList,
     del } = require('../controller/blog');
 const { ErrorModel, SuccessModel } = require('../model/resmodel');
 
-router.get('/list', (req, res) => {
-    
+router.get('/list', loginCheck, (req, res) => {
     const result = getList(req.query.keyWords, req.query.autor);
     console.log('result =>', result);
 
@@ -18,5 +18,6 @@ router.get('/list', (req, res) => {
         res.json(new ErrorModel(err));
     })
 })
+
 
 module.exports = router;

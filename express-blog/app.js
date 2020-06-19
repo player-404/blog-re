@@ -9,7 +9,7 @@ var usersRouter = require('./routes/users'); */
 let blogRouter = require('./routes/blog');
 let userRouter = require('./routes/users');
 const session = require('express-session');
-let RedisStore = require('connect-redis');
+let RedisStore = require('connect-redis')(session);
 var app = express();
 
 // view engine setup
@@ -23,7 +23,7 @@ app.use(cookieParser());
 /* app.use(express.static(path.join(__dirname, 'public')));
  */
 
- let redisClient = require('./db/redis');
+ let redisClient = require('./conf/redis');
  let sessionStore = new RedisStore({
    client: redisClient
  })
