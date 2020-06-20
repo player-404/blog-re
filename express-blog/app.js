@@ -1,6 +1,7 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+const fs = require('fs');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
@@ -16,17 +17,31 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(logger('dev'));
+//运行环境
+const ENV = process.env.NODE_ENV;
+const logFile = path.join(__dirname, 'log', 'access.log');
+// 使用流的方式写入文件
+const writeStream = fs.createWriteStream(logFile, { flags: 'a' });
+//开发环境
+if (ENV != 'production') {
+  app.use(logger('dev'),{ stream: process.stdout }); //默认配置
+// 生产环境
+} else {
+  app.use(logger('combined', {
+    stream: writeStream
+  }))
+}
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 /* app.use(express.static(path.join(__dirname, 'public')));
  */
 
- let redisClient = require('./conf/redis');
- let sessionStore = new RedisStore({
-   client: redisClient
- })
+let redisClient = require('./conf/redis');
+const { stream } = require('./conf/redis');
+let sessionStore = new RedisStore({
+  client: redisClient
+})
 // session中间执行后 会赋值给req.session
 app.use(session({
   secret: 'demo_key',

@@ -1,6 +1,7 @@
 //数据库查询
 const {MYSQL_CONFIG} = require('../conf/db');
 const mysql = require('mysql');
+console.log(MYSQL_CONFIG);
 
 //创建数据据连接
 const con = mysql.createConnection(MYSQL_CONFIG);
