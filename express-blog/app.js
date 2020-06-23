@@ -19,6 +19,7 @@ app.set('view engine', 'jade');
 
 //运行环境
 const ENV = process.env.NODE_ENV;
+//写入博客
 const logFile = path.join(__dirname, 'log', 'access.log');
 // 使用流的方式写入文件
 const writeStream = fs.createWriteStream(logFile, { flags: 'a' });
